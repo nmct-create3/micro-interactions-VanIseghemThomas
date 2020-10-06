@@ -39,6 +39,8 @@
     --global-color-neutral-xxx-dark: #35374d;
     --global-color-neutral-xxxx-dark: #20223a;
 
+    --global-color-error: #EC473F;
+
     /* global page settings */
     --global-html-color: var(--global-color-neutral-xxxx-dark);
     --global-html-backgroundColor: var(--global-color-neutral-xxxx-light);
@@ -71,6 +73,7 @@
     --global-input-focus-borderColor: var(--global-color-alpha);
     --global-input-focus-boxShadowColor: var(--global-color-alpha-x-transparent);
     --global-input-focus-boxShadow: 0 0 0 3px var(--global-input-focus-boxShadowColor);
+    --global-input-error-borderColor: var(--global-color-error);
 }
 
 /*------------------------------------*\
@@ -611,18 +614,71 @@ input::placeholder {
     align-items: center;
 }
 
+.c-password-toggle-container{
+    position: relative;
+    display: block;
+}
+
+.c-password-toggle{
+    position: absolute;
+    width: var(--global-whitespace);
+    height: var(--global-whitespace);
+    z-index: 10;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: calc(var(--global-whitespace)/2);
+}
+
+.c-toggle-password__label{
+    display: flex;
+}
+
+.c-password-toggle__symbol {    
+    fill: var(--global-color-neutral-x-light);
+    position: absolute;
+}
+
+.c-password-toggle__checkbox:hover + .c-password-toggle__label .c-password-toggle__symbol{
+    fill: var(--global-color-neutral-xxx-light);
+    transition: var(--global-transitionTiming-alpha);
+}
+
+.c-password-toggle__checkbox:focus + .c-password-toggle__label .c-password-toggle__symbol{
+    fill: var(--global-color-neutral-xx-light);
+    transition: var(--global-transitionTiming-alpha);   
+}
+
+.c-toggle-password__symbol--hide{
+    opacity: 0;
+}
+.c-password-toggle__checkbox:checked + .c-password-toggle__label .c-password-toggle__symbol--hide{
+    opacity: 1;
+    transition: var(--global-transitionTiming-alpha);
+}
+
+.c-password-toggle__checkbox:checked + .c-password-toggle__label .c-password-toggle__symbol--show{
+    opacity: 0;
+    transition: var(--global-transitionTiming-alpha);
+}
+
 /*
     Component: Input
     ---
     Class to put on all input="text" like form inputs
 */
 
+.has-error {
+    --label-color: var(--global-color-error);
+    --input-borderColor: var(--global-input-error-borderColor);
+}
+
 .c-input {       
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     width: 100%;
-    border: 1px solid var(--global-input-borderColor);
+    border: var(--global-borderWidth) solid var(--input-borderColor, var(--global-input-borderColor));
     border-radius: var(--global-borderRadius);
     background-color: var(--global-input-backgroundColor);
     color: var(--global-input-color);
@@ -671,7 +727,7 @@ more padding on the right to avoid overlap
     padding-bottom: var(--global-whitespace-sm);
     font-size: 14px;
     line-height: 16px;
-    color: var(--label-color);
+    color: var(--label-color, var(--global-color-neutral-xx-dark));
 }
 
 .c-label--option {
